@@ -73,7 +73,7 @@ export async function readSourcesFromFilesystem(filename) {
   if (!import.meta.prerender) {
     return null
   }
-  const path = join('${runtimeAssetsPath}', filename)
+  const path = join(${JSON.stringify(runtimeAssetsPath)}, filename)
   const data = await readFile(path, 'utf-8').catch(() => null)
   return data ? JSON.parse(data) : null
 }
@@ -153,8 +153,9 @@ async function prerenderRoute(nitro: Nitro, route: string) {
   const _route: PrerenderRoute = { route, fileName: route }
   // Fetch the route
   const encodedRoute = encodeURI(route)
+  const fetchUrl = withBase(encodedRoute, nitro.options.baseURL)
   const res = await globalThis.$fetch.raw(
-    withBase(encodedRoute, nitro.options.baseURL),
+    fetchUrl,
     {
       headers: { 'x-nitro-prerender': encodedRoute },
       retry: nitro.options.prerender.retry,
@@ -171,10 +172,12 @@ async function prerenderRoute(nitro: Nitro, route: string) {
   const filePath = join(nitro.options.output.publicDir, _route.fileName!)
   await mkdir(dirname(filePath), { recursive: true })
   const data = res._data
+  if (data === undefined)
+    throw new Error(`No data returned from '${fetchUrl}'`)
   if (filePath.endsWith('json') || typeof data === 'object')
     await writeFile(filePath, JSON.stringify(data), 'utf8')
   else
-    await writeFile(filePath, data, 'utf8')
+    await writeFile(filePath, data as string, 'utf8')
   _route.generateTimeMS = Date.now() - start
   nitro._prerenderedRoutes!.push(_route)
   nitro.logger.log(formatPrerenderRoute(_route))

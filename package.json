@@ -1,7 +1,7 @@
 {
   "name": "@nuxtjs/sitemap",
   "type": "module",
-  "version": "7.4.8",
+  "version": "7.4.9",
   "packageManager": "pnpm@10.24.0",
   "description": "Powerfully flexible XML Sitemaps that integrate seamlessly, for Nuxt.",
   "author": {
@@ -84,6 +84,14 @@
     "ufo": "^1.6.1",
     "ultrahtml": "^1.6.0"
   },
+  "peerDependencies": {
+    "zod": "^3.0.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
     "@nuxt/content": "^3.9.0",
@@ -92,7 +100,7 @@
     "@nuxt/test-utils": "^3.21.0",
     "@nuxt/ui": "^4.2.1",
     "@nuxtjs/i18n": "^10.2.1",
-    "@nuxtjs/robots": "^5.6.0",
+    "@nuxtjs/robots": "^5.6.1",
     "@nuxtjs/sitemap": "workspace:*",
     "better-sqlite3": "^12.5.0",
     "bumpp": "^10.3.2",
@@ -103,8 +111,8 @@
     "nuxt": "^4.2.1",
     "nuxt-i18n-micro": "^2.13.0",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.4",
-    "vue-tsc": "^3.1.5"
+    "vitest": "^3",
+    "vue-tsc": "^3.1.6"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
